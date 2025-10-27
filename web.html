@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/styles.css"/>
+  <title>Web Tetris — moduláris példa</title>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <canvas id="playfield" width="280" height="560"></canvas>
+    </div>
+    <div class="sidebar">
+      <h1>Web Tetris</h1>
+      <div class="stat"><span>Pont:</span><span id="score">0</span></div>
+      <div class="stat"><span>Szint:</span><span id="level">1</span></div>
+      <div class="stat"><span>Sorok:</span><span id="lines">0</span></div>
+      <canvas id="next" class="small-canvas" width="120" height="120"></canvas>
+      <canvas id="hold" class="small-canvas" width="120" height="120"></canvas>
+      <button id="startBtn" class="btn">Új játék</button>
+      <button id="pauseBtn" class="btn">Szünet</button>
+      <div class="controls">
+        <strong>Billentyűk</strong>
+        <ul>
+          <li>← / → : mozgatás</li>
+          <li>↓ : gyors esés</li>
+          <li>Space : drop</li>
+          <li>Up / X : forgatás</li>
+          <li>C : hold</li>
+          <li>P : szünet</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

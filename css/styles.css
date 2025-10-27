@@ -1,0 +1,80 @@
+:root {
+  --bg: #0f1720;
+  --panel: #0b1220;
+  --accent: #00d1b2;
+  --muted: #97a0ab;
+  --cell-size: 28px;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: linear-gradient(180deg, #071026 0%, #081426 100%);
+  color: #e6eef6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+}
+
+canvas {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  border-radius: 8px;
+  image-rendering: pixelated;
+}
+
+.sidebar {
+  width: 220px;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  border-radius: 8px;
+}
+
+h1 {
+  font-size: 18px;
+  margin: 4px 0 12px;
+  color: var(--accent);
+}
+
+.stat {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 10px;
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.small-canvas {
+  width: 100%;
+  background: transparent;
+  display: block;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.controls {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+}

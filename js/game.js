@@ -178,11 +178,9 @@ export class Game {
   saveScore(){
     try{
       const obj = { score: this.score, lines: this.totalLines, level: this.level, date: new Date().toISOString() };
-      // Delegate persistence to UI helper to avoid duplication and ensure sorting
       if(this.ui && typeof this.ui.addScoreToHistory === 'function') {
         this.ui.addScoreToHistory(obj);
       } else {
-        // fallback: persist directly if UI helper missing
         const raw = localStorage.getItem('tetris_scores') || '[]';
         const arr = JSON.parse(raw);
         arr.push(obj);

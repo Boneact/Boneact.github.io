@@ -30,3 +30,5 @@ pauseBtn.addEventListener('click',()=>game.togglePause());
 
 game.reset();
 ui.render(game);
+requestAnimationFrame(game.update.bind(game));
+

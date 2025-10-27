@@ -83,9 +83,9 @@ export class Game {
     this.lockPiece();
   }
 
-  rotate(d){
+  rotate(){
     if(!this.current) return;
-    let rotated = dir===1? rotateMatrix(this.current.matrix) : rotateMatrix(rotateMatrix(rotateMatrix(this.current.matrix)));
+    let rotated = rotateMatrix(this.current.matrix)
     const kicks=[[0,0],[-1,0],[1,0],[-2,0],[2,0],[0,-1]];
     for(let [ox,oy] of kicks){
       if(!this.collides(rotated,this.current.x+ox,this.current.y+oy)){

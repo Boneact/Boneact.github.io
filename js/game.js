@@ -20,6 +20,7 @@ export class Game {
     this.lastTime = 0;
     this.isPaused = false;
     this.isGameOver = false;
+    this._savedScore = false;
   }
 
   reset() {
@@ -36,6 +37,7 @@ export class Game {
     this.dropInterval = 1000;
     this.isPaused = false;
     this.isGameOver = false;
+    this._savedScore = false;
     this.ui.updateStat(this.score, this.totalLines, this.level);
   }
 
@@ -149,6 +151,11 @@ export class Game {
   }
 
   update(time=0){
+    if(this.isGameOver && !this._savedScore){
+      this._savedScore = true;
+      this.saveScore();
+    }
+
     if(this.isPaused||this.isGameOver){
       this.ui.render(this);
       requestAnimationFrame(this.update.bind(this));
@@ -166,5 +173,23 @@ export class Game {
 
     this.ui.render(this);
     requestAnimationFrame(this.update.bind(this));
+  }
+
+  saveScore(){
+    try{
+      const obj = { score: this.score, lines: this.totalLines, level: this.level, date: new Date().toISOString() };
+      // Delegate persistence to UI helper to avoid duplication and ensure sorting
+      if(this.ui && typeof this.ui.addScoreToHistory === 'function') {
+        this.ui.addScoreToHistory(obj);
+      } else {
+        // fallback: persist directly if UI helper missing
+        const raw = localStorage.getItem('tetris_scores') || '[]';
+        const arr = JSON.parse(raw);
+        arr.push(obj);
+        localStorage.setItem('tetris_scores', JSON.stringify(arr));
+      }
+    }catch(e){
+      console.error('Could not save score', e);
+    }
   }
 }

@@ -20,6 +20,17 @@
       <canvas id="hold" class="small-canvas" width="120" height="120"></canvas>
       <button id="startBtn" class="btn">Új játék</button>
       <button id="pauseBtn" class="btn">Szünet</button>
+        <button id="historyBtn" class="btn">Eredmények</button>
+        <div id="scoreHistory" class="score-window" aria-hidden="true">
+          <div class="score-window-header">
+            <span>Korábbi eredmények</span>
+            <button id="closeHistory" class="btn small">×</button>
+          </div>
+          <ul id="scoreList" class="score-list"></ul>
+          <div class="score-window-footer">
+            <button id="clearHistory" class="btn small">Törlés</button>
+          </div>
+        </div>
       <div class="controls">
         <strong>Billentyűk</strong>
         <ul>

@@ -16,6 +16,17 @@ export class UI {
     this.linesEl = document.querySelector('#lines');
     this.levelEl = document.querySelector('#level');
     this.pauseBtn = document.querySelector('#pauseBtn');
+
+    this.historyBtn = document.querySelector('#historyBtn');
+    this.historyWindow = document.querySelector('#scoreHistory');
+    this.scoreList = document.querySelector('#scoreList');
+    this.closeHistoryBtn = document.querySelector('#closeHistory');
+    this.clearHistoryBtn = document.querySelector('#clearHistory');
+
+    this.loadHistory();
+    if(this.historyBtn) this.historyBtn.addEventListener('click',()=>this.toggleHistory());
+    if(this.closeHistoryBtn) this.closeHistoryBtn.addEventListener('click',()=>this.hideHistory());
+    if(this.clearHistoryBtn) this.clearHistoryBtn.addEventListener('click',()=>this.clearHistory());
   }
 
   updateStat(score, lines, level){
@@ -99,5 +110,66 @@ export class UI {
       ctx.fillRect(offsetX+size,offsetY+size,size*2,size*2);
     }
     ctx.restore();
+  }
+
+  loadHistory(){
+    try {
+      const raw = localStorage.getItem('tetris_scores') || '[]';
+      this.history = JSON.parse(raw);
+      if(Array.isArray(this.history)) this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
+    } catch(e){
+      this.history = [];
+    }
+    this.renderHistory();
+  }
+
+  renderHistory(){
+    if(!this.scoreList) return;
+    this.scoreList.innerHTML = '';
+    if(!this.history || this.history.length===0){
+      const li = document.createElement('li');
+      li.className = 'score-empty';
+      li.textContent = 'Nincs korábbi eredmény';
+      this.scoreList.appendChild(li);
+      return;
+    }
+
+    for(const s of this.history){
+      const li = document.createElement('li');
+      const date = new Date(s.date);
+      const left = document.createElement('span');
+      left.textContent = date.toLocaleString();
+      const right = document.createElement('strong');
+      right.textContent = s.score;
+      li.appendChild(left);
+      li.appendChild(right);
+      this.scoreList.appendChild(li);
+    }
+  }
+
+  addScoreToHistory(scoreObj){
+    this.history = this.history || [];
+    this.history.push(scoreObj);
+    this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
+    try{ localStorage.setItem('tetris_scores', JSON.stringify(this.history)); }catch(e){}
+    this.renderHistory();
+  }
+
+  toggleHistory(){
+    if(!this.historyWindow) return;
+    const open = this.historyWindow.classList.toggle('open');
+    this.historyWindow.setAttribute('aria-hidden', (!open).toString());
+  }
+
+  hideHistory(){
+    if(!this.historyWindow) return;
+    this.historyWindow.classList.remove('open');
+    this.historyWindow.setAttribute('aria-hidden','true');
+  }
+
+  clearHistory(){
+    try{ localStorage.removeItem('tetris_scores'); }catch(e){}
+    this.history = [];
+    this.renderHistory();
   }
 }

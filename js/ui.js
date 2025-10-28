@@ -23,10 +23,11 @@ export class UI {
     this.closeHistoryBtn = document.querySelector('#closeHistory');
     this.clearHistoryBtn = document.querySelector('#clearHistory');
 
-    this.loadHistory();
+    // loadHistory is async; call and ignore the returned promise here
+    this.loadHistory().catch(()=>{});
     if(this.historyBtn) this.historyBtn.addEventListener('click',()=>this.toggleHistory());
     if(this.closeHistoryBtn) this.closeHistoryBtn.addEventListener('click',()=>this.hideHistory());
-    if(this.clearHistoryBtn) this.clearHistoryBtn.addEventListener('click',()=>this.clearHistory());
+    if(this.clearHistoryBtn) this.clearHistoryBtn.addEventListener('click',()=>this.clearHistory().catch(()=>{}));
   }
 
   updateStat(score, lines, level){
@@ -112,7 +113,7 @@ export class UI {
     ctx.restore();
   }
 
-  loadHistory(){
+  async loadHistory(){
     try {
       const raw = localStorage.getItem('tetris_scores') || '[]';
       this.history = JSON.parse(raw);
@@ -121,6 +122,7 @@ export class UI {
       this.history = [];
     }
     this.renderHistory();
+    return Promise.resolve(this.history);
   }
 
   renderHistory(){
@@ -147,12 +149,17 @@ export class UI {
     }
   }
 
-  addScoreToHistory(scoreObj){
+  async addScoreToHistory(scoreObj){
     this.history = this.history || [];
     this.history.push(scoreObj);
     this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
-    try{ localStorage.setItem('tetris_scores', JSON.stringify(this.history)); }catch(e){}
+    try{
+      localStorage.setItem('tetris_scores', JSON.stringify(this.history));
+    }catch(e){
+      return Promise.reject(e);
+    }
     this.renderHistory();
+    return Promise.resolve(scoreObj);
   }
 
   toggleHistory(){
@@ -167,9 +174,10 @@ export class UI {
     this.historyWindow.setAttribute('aria-hidden','true');
   }
 
-  clearHistory(){
+  async clearHistory(){
     try{ localStorage.removeItem('tetris_scores'); }catch(e){}
     this.history = [];
     this.renderHistory();
+    return Promise.resolve();
   }
 }

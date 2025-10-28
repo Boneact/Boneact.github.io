@@ -179,7 +179,8 @@ export class Game {
     try{
       const obj = { score: this.score, lines: this.totalLines, level: this.level, date: new Date().toISOString() };
       if(this.ui && typeof this.ui.addScoreToHistory === 'function') {
-        this.ui.addScoreToHistory(obj);
+        // call async addScoreToHistory in a fire-and-forget manner
+        this.ui.addScoreToHistory(obj).catch(err=>console.error('Save failed', err));
       } else {
         const raw = localStorage.getItem('tetris_scores') || '[]';
         const arr = JSON.parse(raw);

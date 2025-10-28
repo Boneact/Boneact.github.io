@@ -185,7 +185,10 @@ export class Game {
         const raw = localStorage.getItem('tetris_scores') || '[]';
         const arr = JSON.parse(raw);
         arr.push(obj);
-        localStorage.setItem('tetris_scores', JSON.stringify(arr));
+        // sort and keep top 20 in fallback path as well
+        arr.sort((a,b)=> (b.score || 0) - (a.score || 0));
+        const trimmed = arr.slice(0,20);
+        localStorage.setItem('tetris_scores', JSON.stringify(trimmed));
       }
     }catch(e){
       console.error('Could not save score', e);

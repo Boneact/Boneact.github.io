@@ -117,7 +117,11 @@ export class UI {
     try {
       const raw = localStorage.getItem('tetris_scores') || '[]';
       this.history = JSON.parse(raw);
-      if(Array.isArray(this.history)) this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
+      if(Array.isArray(this.history)){
+        this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
+        // keep only top 20
+        this.history = this.history.slice(0,20);
+      }
     } catch(e){
       this.history = [];
     }
@@ -153,6 +157,8 @@ export class UI {
     this.history = this.history || [];
     this.history.push(scoreObj);
     this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
+    // keep only top 20
+    this.history = this.history.slice(0,20);
     try{
       localStorage.setItem('tetris_scores', JSON.stringify(this.history));
     }catch(e){

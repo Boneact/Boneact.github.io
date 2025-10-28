@@ -114,3 +114,28 @@ h1 {
   color: var(--muted);
   margin-top: 12px;
 }
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.menu h1 {
+  font-size: 48px; /* nagyobb cím */
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.menu .btn {
+  font-size: 16px;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+
+.menu .btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

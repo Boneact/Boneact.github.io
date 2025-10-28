@@ -1,4 +1,5 @@
 import { CELL, COLORS, TETROMINOS } from './constants.js';
+import { loadScores, addScore, clearScores } from './storage.js';
 
 export class UI {
   constructor(){
@@ -115,13 +116,7 @@ export class UI {
 
   async loadHistory(){
     try {
-      const raw = localStorage.getItem('tetris_scores') || '[]';
-      this.history = JSON.parse(raw);
-      if(Array.isArray(this.history)){
-        this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
-        // keep only top 20
-        this.history = this.history.slice(0,20);
-      }
+      this.history = await loadScores();
     } catch(e){
       this.history = [];
     }
@@ -154,13 +149,9 @@ export class UI {
   }
 
   async addScoreToHistory(scoreObj){
-    this.history = this.history || [];
-    this.history.push(scoreObj);
-    this.history.sort((a,b)=> (b.score || 0) - (a.score || 0));
-    // keep only top 20
-    this.history = this.history.slice(0,20);
     try{
-      localStorage.setItem('tetris_scores', JSON.stringify(this.history));
+      const arr = await addScore(scoreObj);
+      this.history = Array.isArray(arr)? arr : [];
     }catch(e){
       return Promise.reject(e);
     }
@@ -181,7 +172,7 @@ export class UI {
   }
 
   async clearHistory(){
-    try{ localStorage.removeItem('tetris_scores'); }catch(e){}
+    try{ await clearScores(); }catch(e){}
     this.history = [];
     this.renderHistory();
     return Promise.resolve();

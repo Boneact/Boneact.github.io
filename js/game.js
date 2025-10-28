@@ -1,4 +1,5 @@
 import { COLS, ROWS, TETROMINOS, rotateMatrix, generateBag } from './constants.js';
+import { addScore as storageAddScore } from './storage.js';
 
 export class Game {
   constructor(ui) {
@@ -182,13 +183,18 @@ export class Game {
         // call async addScoreToHistory in a fire-and-forget manner
         this.ui.addScoreToHistory(obj).catch(err=>console.error('Save failed', err));
       } else {
-        const raw = localStorage.getItem('tetris_scores') || '[]';
-        const arr = JSON.parse(raw);
-        arr.push(obj);
-        // sort and keep top 20 in fallback path as well
-        arr.sort((a,b)=> (b.score || 0) - (a.score || 0));
-        const trimmed = arr.slice(0,20);
-        localStorage.setItem('tetris_scores', JSON.stringify(trimmed));
+        // fallback: use storage helper to persist (async)
+        storageAddScore(obj).catch(err=>{
+          try{
+            const raw = localStorage.getItem('tetris_scores') || '[]';
+            const arr = JSON.parse(raw);
+            arr.push(obj);
+            arr.sort((a,b)=> (b.score || 0) - (a.score || 0));
+            const trimmed = arr.slice(0,20);
+            localStorage.setItem('tetris_scores', JSON.stringify(trimmed));
+          }catch(e){ /* last resort: ignore */ }
+          console.error('Save failed', err);
+        });
       }
     }catch(e){
       console.error('Could not save score', e);

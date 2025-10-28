@@ -124,7 +124,7 @@ h1 {
 }
 
 .menu h1 {
-  font-size: 48px; /* nagyobb cím */
+  font-size: 48px;
   margin-bottom: 20px;
   color: var(--accent);
 }

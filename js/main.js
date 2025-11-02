@@ -18,7 +18,7 @@ document.addEventListener('keydown',(e)=>{
     case 'ArrowLeft': e.preventDefault(); game.move(-1,0); break;
     case 'ArrowRight': e.preventDefault(); game.move(1,0); break;
     case 'ArrowDown': e.preventDefault(); game.move(0,1); break;
-    case 'x': case 'X': case 'ArrowUp': e.preventDefault(); game.rotate(); break;
+    case 'ArrowUp': e.preventDefault(); game.rotate(); break;
     case 'c': case 'C': e.preventDefault(); game.doHold(); break;
     case 'p': case 'P': e.preventDefault(); game.togglePause(); break;
     case ' ': e.preventDefault(); game.hardDrop(); break;

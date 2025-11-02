@@ -162,13 +162,11 @@ export class UI {
   toggleHistory(){
     if(!this.historyWindow) return;
     const open = this.historyWindow.classList.toggle('open');
-    this.historyWindow.setAttribute('aria-hidden', (!open).toString());
   }
 
   hideHistory(){
     if(!this.historyWindow) return;
     this.historyWindow.classList.remove('open');
-    this.historyWindow.setAttribute('aria-hidden','true');
   }
 
   async clearHistory(){

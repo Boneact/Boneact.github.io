@@ -61,6 +61,22 @@ canvas {
 
 .score-window.open { display: block; }
 
+.game-over-stats {
+  padding: 16px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  margin: 8px 0;
+}
+
+.game-over-stats .stat {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.game-over-stats .stat:last-child {
+  margin-bottom: 0;
+}
+
 .score-window-header{
   display:flex;
   justify-content:space-between;

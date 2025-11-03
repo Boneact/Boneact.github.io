@@ -54,7 +54,8 @@ export class Game {
     const mat = TETROMINOS[type][0];
     this.current = { type, matrix: mat.slice(), x: 3, y: -1 };
     this.canHold = true;
-    if(this.collides(this.current.matrix,this.current.x,this.current.y)) this.isGameOver=true;
+    if(this.collides(this.current.matrix,this.current.x,this.current.y)) 
+      this.isGameOver=true;
   }
 
   collides(mat, offsetX, offsetY){
@@ -155,6 +156,7 @@ export class Game {
     if(this.isGameOver && !this._savedScore){
       this._savedScore = true;
       this.saveScore();
+      this.ui.showGameOver(this.score, this.level, this.totalLines);
     }
 
     if(this.isPaused||this.isGameOver){
@@ -177,27 +179,7 @@ export class Game {
   }
 
   saveScore(){
-    try{
-      const obj = { score: this.score, lines: this.totalLines, level: this.level, date: new Date().toISOString() };
-      if(this.ui && typeof this.ui.addScoreToHistory === 'function') {
-        // call async addScoreToHistory in a fire-and-forget manner
-        this.ui.addScoreToHistory(obj).catch(err=>console.error('Save failed', err));
-      } else {
-        // fallback: use storage helper to persist (async)
-        storageAddScore(obj).catch(err=>{
-          try{
-            const raw = localStorage.getItem('tetris_scores') || '[]';
-            const arr = JSON.parse(raw);
-            arr.push(obj);
-            arr.sort((a,b)=> (b.score || 0) - (a.score || 0));
-            const trimmed = arr.slice(0,20);
-            localStorage.setItem('tetris_scores', JSON.stringify(trimmed));
-          }catch(e){ /* last resort: ignore */ }
-          console.error('Save failed', err);
-        });
-      }
-    }catch(e){
-      console.error('Could not save score', e);
-    }
+    const obj = { score: this.score, lines: this.totalLines, level: this.level, date: new Date().toISOString() };
+    this.ui.addScoreToHistory(obj).catch(err=>console.error('Save failed', err));
   }
 }

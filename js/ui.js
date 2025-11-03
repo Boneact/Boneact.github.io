@@ -24,7 +24,19 @@ export class UI {
     this.closeHistoryBtn = document.querySelector('#closeHistory');
     this.clearHistoryBtn = document.querySelector('#clearHistory');
 
-    // loadHistory is async; call and ignore the returned promise here
+    this.gameOverWindow = document.querySelector('#gameOver');
+    this.finalScoreEl = document.querySelector('#finalScore');
+    this.finalLevelEl = document.querySelector('#finalLevel');
+    this.finalLinesEl = document.querySelector('#finalLines');
+    this.closeGameOverBtn = document.querySelector('#closeGameOver');
+    this.newGameOverBtn = document.querySelector('#newGameOverBtn');
+
+    if(this.closeGameOverBtn) this.closeGameOverBtn.addEventListener('click', ()=>this.hideGameOver());
+    if(this.newGameOverBtn) this.newGameOverBtn.addEventListener('click', ()=>{
+      this.hideGameOver();
+      document.querySelector('#newgameBtn').click();
+    });
+
     this.loadHistory().catch(()=>{});
     if(this.historyBtn) this.historyBtn.addEventListener('click',()=>this.toggleHistory());
     if(this.closeHistoryBtn) this.closeHistoryBtn.addEventListener('click',()=>this.hideHistory());
@@ -174,5 +186,18 @@ export class UI {
     this.history = [];
     this.renderHistory();
     return Promise.resolve();
+  }
+
+  showGameOver(score, level, lines){
+    if(!this.gameOverWindow) return;
+    this.finalScoreEl.textContent = score;
+    this.finalLevelEl.textContent = level;
+    this.finalLinesEl.textContent = lines;
+    this.gameOverWindow.classList.add('open');
+  }
+
+  hideGameOver(){
+    if(!this.gameOverWindow) return;
+    this.gameOverWindow.classList.remove('open');
   }
 }

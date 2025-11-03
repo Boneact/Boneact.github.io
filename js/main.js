@@ -4,9 +4,9 @@ import { UI } from './ui.js';
 const ui = new UI();
 const game = new Game(ui);
 
-const startBtn = document.querySelector('#startBtn');
+const newgameBtn = document.querySelector('#newgameBtn');
 
-startBtn.addEventListener('click',()=>{
+newgameBtn.addEventListener('click',()=>{
   game.reset();
   game.lastTime = performance.now();
   requestAnimationFrame(game.update.bind(game));

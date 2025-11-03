@@ -18,10 +18,10 @@
       <div class="stat"><span>Sorok:</span><span id="lines">0</span></div>
       <canvas id="next" class="small-canvas" width="120" height="120"></canvas>
       <canvas id="hold" class="small-canvas" width="120" height="120"></canvas>
-      <button id="startBtn" class="btn">Új játék</button>
+      <button id="newgameBtn" class="btn">Új játék</button>
       <button id="pauseBtn" class="btn">Szünet</button>
         <button id="historyBtn" class="btn">Eredmények</button>
-        <div id="scoreHistory" class="score-window" aria-hidden="true">
+        <div id="scoreHistory" class="score-window">
           <div class="score-window-header">
             <span>Korábbi eredmények</span>
             <button id="closeHistory" class="btn small">×</button>
@@ -29,6 +29,20 @@
           <ul id="scoreList" class="score-list"></ul>
           <div class="score-window-footer">
             <button id="clearHistory" class="btn small">Törlés</button>
+          </div>
+        </div>
+        <div id="gameOver" class="score-window">
+          <div class="score-window-header">
+            <span>Játék vége!</span>
+            <button id="closeGameOver" class="btn small">×</button>
+          </div>
+          <div class="game-over-stats">
+            <div class="stat"><span>Végső pont:</span><span id="finalScore">0</span></div>
+            <div class="stat"><span>Szint:</span><span id="finalLevel">1</span></div>
+            <div class="stat"><span>Sorok:</span><span id="finalLines">0</span></div>
+          </div>
+          <div class="score-window-footer">
+            <button id="newGameOverBtn" class="btn">Új játék</button>
           </div>
         </div>
       <div class="controls">

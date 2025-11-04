@@ -10,13 +10,26 @@
   <div class="container">
     <div class="menu">
       <h1>Tetris</h1>
+      <div class="control-row">
+        <label for="gridSizeSelect">Játéktér méret:</label>
+        <select id="gridSizeSelect">
+          <option value="8x16">Kicsi (8×16)</option>
+          <option value="10x20">Normál (10×20)</option>
+          <option value="12x24">Nagy (12×24)</option>
+        </select>
+      </div>
       <button class="btn">Játék</button>
     </div>
   </div>
 </body>
 <script>
     const btn = document.querySelector('.btn');
+    const select = document.querySelector('#gridSizeSelect');
+
     btn.addEventListener('click', () => {
+        if(select && select.value){
+          localStorage.setItem('gridSize', select.value);
+        }
         window.location.href = 'game.html';
     });
 </script>

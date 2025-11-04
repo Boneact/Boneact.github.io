@@ -2,11 +2,13 @@ import { CELL, COLORS, TETROMINOS } from './constants.js';
 import { loadScores, addScore, clearScores } from './storage.js';
 
 export class UI {
-  constructor(){
+  constructor(cols=10, rows=20){
+    this.cols = cols;
+    this.rows = rows;
     this.canvas = document.querySelector('#playfield');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = 10*CELL;
-    this.canvas.height = 20*CELL;
+    this.canvas.width = this.cols * CELL;
+    this.canvas.height = this.rows * CELL;
 
     this.nextCanvas = document.querySelector('#next');
     this.nextCtx = this.nextCanvas.getContext('2d');
@@ -43,6 +45,15 @@ export class UI {
     if(this.clearHistoryBtn) this.clearHistoryBtn.addEventListener('click',()=>this.clearHistory().catch(()=>{}));
   }
 
+  setGridSize(cols, rows){
+    this.cols = cols;
+    this.rows = rows;
+    if(this.canvas){
+      this.canvas.width = this.cols * CELL;
+      this.canvas.height = this.rows * CELL;
+    }
+  }
+
   updateStat(score, lines, level){
     this.scoreEl.textContent = score;
     this.linesEl.textContent = lines;
@@ -65,15 +76,18 @@ export class UI {
     const ctx=this.ctx;
     ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-    for(let r=0;r<20;r++){
-      for(let c=0;c<10;c++){
+    const rows = game.grid.length;
+    const cols = game.grid[0].length;
+
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
         ctx.fillStyle='#071223';
         ctx.fillRect(c*CELL,r*CELL,CELL,CELL);
       }
     }
 
-    for(let r=0;r<20;r++){
-      for(let c=0;c<10;c++){
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
         const cell=game.grid[r][c];
         if(cell) this.drawCell(this.ctx, c,r,COLORS[cell]||COLORS.X);
       }
@@ -91,10 +105,10 @@ export class UI {
       }
     }
 
-    ctx.strokeStyle='rgba(255,255,255,0.02)';
-    ctx.lineWidth=1;
-    for(let i=1;i<10;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,this.canvas.height);ctx.stroke();}
-    for(let i=1;i<20;i++){ctx.beginPath();ctx.moveTo(0,i*CELL);ctx.lineTo(this.canvas.width,i*CELL);ctx.stroke();}
+  ctx.strokeStyle='rgba(255,255,255,0.02)';
+  ctx.lineWidth=1;
+  for(let i=1;i<cols;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,this.canvas.height);ctx.stroke();}
+  for(let i=1;i<rows;i++){ctx.beginPath();ctx.moveTo(0,i*CELL);ctx.lineTo(this.canvas.width,i*CELL);ctx.stroke();}
 
     this.renderSmall(this.nextCtx, game.nextQueue[0]);
     this.renderSmall(this.holdCtx, game.holdPiece);

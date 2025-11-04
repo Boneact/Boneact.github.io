@@ -33,5 +33,3 @@ export async function clearScores(){
   localStorage.removeItem(KEY);
   return [];
 }
-
-export default { loadScores, saveScores, addScore, clearScores };

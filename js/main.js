@@ -1,8 +1,19 @@
 import { Game } from './game.js';
 import { UI } from './ui.js';
 
-const ui = new UI();
-const game = new Game(ui);
+const savedSize = localStorage.getItem('gridSize');
+let DEFAULT_COLS = 10;
+let DEFAULT_ROWS = 20;
+if(savedSize){
+  const parts = savedSize.split('x').map(n=>parseInt(n,10));
+  if(parts.length===2 && !isNaN(parts[0]) && !isNaN(parts[1])){
+    DEFAULT_COLS = parts[0];
+    DEFAULT_ROWS = parts[1];
+  }
+}
+
+const ui = new UI(DEFAULT_COLS, DEFAULT_ROWS);
+let game = new Game(ui, DEFAULT_COLS, DEFAULT_ROWS);
 
 const newgameBtn = document.querySelector('#newgameBtn');
 

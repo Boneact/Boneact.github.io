@@ -1,9 +1,10 @@
-import { COLS, ROWS, TETROMINOS, rotateMatrix, generateBag } from './constants.js';
-import { addScore as storageAddScore } from './storage.js';
+import { TETROMINOS, rotateMatrix, generateBag } from './constants.js';
 
 export class Game {
-  constructor(ui) {
+  constructor(ui, cols = 10, rows = 20) {
     this.ui = ui;
+    this.cols = cols;
+    this.rows = rows;
 
     this.grid = [];
     this.bag = [];
@@ -25,7 +26,7 @@ export class Game {
   }
 
   reset() {
-    this.grid = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    this.grid = Array.from({ length: this.rows }, () => Array(this.cols).fill(0));
     this.bag = generateBag(TETROMINOS);
     this.nextQueue = [];
     for(let i=0;i<5;i++) this.refillQueue();
@@ -52,7 +53,8 @@ export class Game {
     const type = this.nextQueue.shift();
     this.refillQueue();
     const mat = TETROMINOS[type][0];
-    this.current = { type, matrix: mat.slice(), x: 3, y: -1 };
+    const startX = Math.max(0, Math.floor((this.cols - 4)/2));
+    this.current = { type, matrix: mat.slice(), x: startX, y: -1 };
     this.canHold = true;
     if(this.collides(this.current.matrix,this.current.x,this.current.y)) 
       this.isGameOver=true;
@@ -65,7 +67,7 @@ export class Game {
         if(!val) continue;
         const gx = offsetX + c;
         const gy = offsetY + r;
-        if(gx<0||gx>=COLS||gy>=ROWS) return true;
+        if(gx<0||gx>=this.cols||gy>=this.rows) return true;
         if(gy>=0 && this.grid[gy][gx]) return true;
       }
     }
@@ -109,7 +111,9 @@ export class Game {
     } else {
       const temp = this.holdPiece;
       this.holdPiece = this.current.type;
-      this.current = { type: temp, matrix: TETROMINOS[temp][0].slice(), x:3, y:-1 };
+      const mat = TETROMINOS[temp][0];
+      const startX = Math.max(0, Math.floor((this.cols - 4)/2));
+      this.current = { type: temp, matrix: mat.slice(), x: startX, y: -1 };
       if(this.collides(this.current.matrix,this.current.x,this.current.y)) this.isGameOver=true;
     }
     this.canHold=false;
@@ -128,10 +132,10 @@ export class Game {
 
   clearLines(){
     let cleared=0;
-    for(let r=ROWS-1;r>=0;r--){
+    for(let r=this.rows-1;r>=0;r--){
       if(this.grid[r].every(cell=>cell!==0)){
         this.grid.splice(r,1);
-        this.grid.unshift(Array(COLS).fill(0));
+        this.grid.unshift(Array(this.cols).fill(0));
         cleared++;
         r++;
       }

@@ -45,15 +45,6 @@ export class UI {
     if(this.clearHistoryBtn) this.clearHistoryBtn.addEventListener('click',()=>this.clearHistory().catch(()=>{}));
   }
 
-  setGridSize(cols, rows){
-    this.cols = cols;
-    this.rows = rows;
-    if(this.canvas){
-      this.canvas.width = this.cols * CELL;
-      this.canvas.height = this.rows * CELL;
-    }
-  }
-
   updateStat(score, lines, level){
     this.scoreEl.textContent = score;
     this.linesEl.textContent = lines;

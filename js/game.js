@@ -1,4 +1,4 @@
-import { TETROMINOS, rotateMatrix, generateBag } from './constants.js';
+import { TETROMINOS, rotateMatrix } from './constants.js';
 
 export class Game {
   constructor(ui, cols = 10, rows = 20) {
@@ -7,8 +7,7 @@ export class Game {
     this.rows = rows;
 
     this.grid = [];
-    this.bag = [];
-    this.nextQueue = [];
+    this.next = null;
     this.current = null;
     this.holdPiece = null;
     this.canHold = true;
@@ -27,9 +26,7 @@ export class Game {
 
   reset() {
     this.grid = Array.from({ length: this.rows }, () => Array(this.cols).fill(0));
-    this.bag = generateBag(TETROMINOS);
-    this.nextQueue = [];
-    for(let i=0;i<5;i++) this.refillQueue();
+    this.next = this.randomPiece();
     this.spawnPiece();
     this.holdPiece = null;
     this.canHold = true;
@@ -43,21 +40,21 @@ export class Game {
     this.ui.updateStat(this.score, this.totalLines, this.level);
   }
 
-  refillQueue() {
-    if(this.bag.length===0) this.bag = generateBag(TETROMINOS);
-    this.nextQueue.push(this.bag.pop());
-  }
-
   spawnPiece() {
-    while(this.nextQueue.length<5) this.refillQueue();
-    const type = this.nextQueue.shift();
-    this.refillQueue();
+    if(!this.next) this.next = this.randomPiece();
+    const type = this.next;
+    this.next = this.randomPiece();
     const mat = TETROMINOS[type][0];
     const startX = Math.max(0, Math.floor((this.cols - 4)/2));
     this.current = { type, matrix: mat.slice(), x: startX, y: -1 };
     this.canHold = true;
     if(this.collides(this.current.matrix,this.current.x,this.current.y)) 
       this.isGameOver=true;
+  }
+
+  randomPiece(){
+    const keys = Object.keys(TETROMINOS);
+    return keys[Math.floor(Math.random()*keys.length)];
   }
 
   collides(mat, offsetX, offsetY){

@@ -101,7 +101,7 @@ export class UI {
   for(let i=1;i<cols;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,this.canvas.height);ctx.stroke();}
   for(let i=1;i<rows;i++){ctx.beginPath();ctx.moveTo(0,i*CELL);ctx.lineTo(this.canvas.width,i*CELL);ctx.stroke();}
 
-    this.renderSmall(this.nextCtx, game.nextQueue[0]);
+    this.renderSmall(this.nextCtx, game.next);
     this.renderSmall(this.holdCtx, game.holdPiece);
   }
 

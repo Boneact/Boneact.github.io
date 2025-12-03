@@ -1,19 +1,3 @@
 {
-    "692ff11a54665": {
-        "name": "alma",
-        "password": "$2y$12$A9yCsi\/Ot4IRLfkM1h.NS.1a7D7\/\/40FnVp2bysEmY9UJHUz0cLDG",
-        "scores": [],
-        "id": "692ff11a54665"
-    },
-    "692ff1b937e85": {
-        "name": "jozsi",
-        "password": "$2y$12$cGybZP9Aq6mfAHJYx90tk.V1oiDI\/d3JSVyUKTcpoj0m7fF44Z68K",
-        "scores": [
-            0,
-            420,
-            1440,
-            0
-        ],
-        "id": "692ff1b937e85"
-    }
+    
 }

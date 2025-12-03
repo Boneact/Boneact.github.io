@@ -4,12 +4,12 @@
 
 ## Billentyűzet vezérlés
 
-- ← / → Blokk vízszintes mozgatása
-- ↓ Blokk lefelé mozgatása manuálisan
-- szóköz Hard drop (azonnali leejtés)
-- ↑ Blokk forgatása
-- c/C Aktuális blokk tartása/félretétele
-- p/P Játék megállítása
+- ← / →: Blokk vízszintes mozgatása
+- ↓: Blokk lefelé mozgatása manuálisan
+- szóköz: Hard drop (azonnali leejtés)
+- ↑: Blokk forgatása
+- c/C: Aktuális blokk tartása/félretétele
+- p/P: Játék megállítása
 
 ## Technológiák
 

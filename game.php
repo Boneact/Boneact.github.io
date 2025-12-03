@@ -1,3 +1,38 @@
+<?php
+include("playerstorage.php");
+
+$playerstorage = new PlayerStorage();
+$currplayer = $playerstorage->findById($_GET["id"]);
+
+$players = json_decode(file_get_contents("users.json"), true);
+
+$allScores = [];
+
+foreach ($players as $player) {
+    $name = $player["name"];
+    foreach ($player["scores"] as $score) {
+        $allScores[] = [
+            "name" => $name,
+            "score" => $score
+        ];
+    }
+}
+
+usort($allScores, function($a, $b) {
+    return $b["score"] <=> $a["score"];
+});
+
+$top10 = array_slice($allScores, 0, 10);
+
+while (count($top10) < 10)
+  {
+    $top10[] = [
+      "name"=> "---",
+      "score"=> 0
+    ];
+  }
+?>
+
 <!doctype html>
 <html lang="hu">
 <head>
@@ -8,6 +43,17 @@
 </head>
 <body>
   <div class="container">
+    <div class="sidebar">
+      <h1>Leaderboard</h1>
+      <ol>
+        <?php foreach($top10 as $entry): ?>
+          <li><?= $entry["name"] ?> - <?= $entry["score"] ?></li>
+        <?php endforeach; ?>
+      </ol>
+      <h5>Név</h5>
+      <span><?= $currplayer["name"] ?></span><br>
+      <button class="btn" id="exitBtn">Kilépés</button>
+    </div>
     <div>
       <canvas id="playfield"></canvas>
     </div>
@@ -20,31 +66,6 @@
       <canvas id="hold" class="small-canvas" width="120" height="120"></canvas>
       <button id="newgameBtn" class="btn">Új játék</button>
       <button id="pauseBtn" class="btn">Szünet</button>
-        <button id="historyBtn" class="btn">Eredmények</button>
-        <div id="scoreHistory" class="score-window">
-          <div class="score-window-header">
-            <span>Korábbi eredmények</span>
-            <button id="closeHistory" class="btn small">×</button>
-          </div>
-          <ul id="scoreList" class="score-list"></ul>
-          <div class="score-window-footer">
-            <button id="clearHistory" class="btn small">Törlés</button>
-          </div>
-        </div>
-        <div id="gameOver" class="score-window">
-          <div class="score-window-header">
-            <span>Játék vége!</span>
-            <button id="closeGameOver" class="btn small">×</button>
-          </div>
-          <div class="game-over-stats">
-            <div class="stat"><span>Végső pont:</span><span id="finalScore">0</span></div>
-            <div class="stat"><span>Szint:</span><span id="finalLevel">1</span></div>
-            <div class="stat"><span>Sorok:</span><span id="finalLines">0</span></div>
-          </div>
-          <div class="score-window-footer">
-            <button id="newGameOverBtn" class="btn">Új játék</button>
-          </div>
-        </div>
       <div class="controls">
         <strong>Billentyűk</strong>
         <ul>
@@ -58,7 +79,10 @@
       </div>
     </div>
   </div>
-
   <script type="module" src="js/main.js"></script>
+  <script>
+    const exitBtn = document.querySelector("#exitBtn");
+    exitBtn.addEventListener('click', ()=>window.location.href = "index.php")
+  </script>
 </body>
 </html>

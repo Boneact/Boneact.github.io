@@ -58,5 +58,3 @@ export function rotateMatrix(mat) {
   }
   return out;
 }
-
-// Bag-based randomization removed; use simple random selection instead.

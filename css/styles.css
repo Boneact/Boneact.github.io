@@ -122,6 +122,10 @@ h1 {
   color: var(--accent);
 }
 
+h5 {
+  color: var(--accent);
+}
+
 p, span {
   color: var(--muted);
 }

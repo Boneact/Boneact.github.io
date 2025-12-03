@@ -178,9 +178,4 @@ export class Game {
     this.ui.render(this);
     requestAnimationFrame(this.update.bind(this));
   }
-
-  saveScore(){
-    const obj = { score: this.score, lines: this.totalLines, level: this.level, date: new Date().toISOString() };
-    this.ui.addScoreToHistory(obj).catch(err=>console.error('Save failed', err));
-  }
 }

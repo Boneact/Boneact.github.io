@@ -12,31 +12,6 @@ if(savedSize){
   }
 }
 
-async function loadLeaderboard() {
-    try {
-        const res = await fetch("load_scores.php");
-        const list = await res.json();
-
-        const top5 = list
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 5);
-
-        const ul = document.getElementById("leaderboardList");
-        ul.innerHTML = "";
-
-        top5.forEach(entry => {
-            let li = document.createElement("li");
-            li.innerHTML = `<span>${entry.name}</span><span>${entry.score}</span>`;
-            ul.appendChild(li);
-        });
-
-    } catch (e) {
-        console.error("Nem sikerült betölteni a leaderboardot:", e);
-    }
-}
-
-
-
 const ui = new UI(DEFAULT_COLS, DEFAULT_ROWS);
 let game = new Game(ui, DEFAULT_COLS, DEFAULT_ROWS);
 
@@ -64,7 +39,6 @@ document.addEventListener('keydown',(e)=>{
 const pauseBtn = document.querySelector('#pauseBtn');
 pauseBtn.addEventListener('click',()=>game.togglePause());
 
-loadLeaderboard();
 game.reset();
 ui.render(game);
 requestAnimationFrame(game.update.bind(game));

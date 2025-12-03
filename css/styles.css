@@ -6,6 +6,11 @@
   --cell-size: 28px;
 }
 
+input + small {
+  color: red;
+  font-weight: bold;
+}
+
 html, body {
   height: 100%;
   margin: 0;
@@ -115,6 +120,10 @@ h1 {
   font-size: 18px;
   margin: 4px 0 12px;
   color: var(--accent);
+}
+
+p, span {
+  color: var(--muted);
 }
 
 .stat {

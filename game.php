@@ -42,17 +42,30 @@ while (count($top10) < 10)
   <title>Web Tetris</title>
 </head>
 <body>
+  <script>
+    localStorage.setItem('playerName', <?php echo json_encode($currplayer['name'] ?? ''); ?>);
+  </script>
   <div class="container">
     <div class="sidebar">
       <h1>Leaderboard</h1>
-      <ol>
+      <div class="score-window-header">Top 10</div>
+      <ol class="score-list">
         <?php foreach($top10 as $entry): ?>
-          <li><?= $entry["name"] ?> - <?= $entry["score"] ?></li>
+          <li>
+            <span><?= $entry["name"] ?></span>
+            <strong><?= (int)$entry["score"] ?></strong>
+          </li>
         <?php endforeach; ?>
       </ol>
-      <h5>Név</h5>
-      <span><?= $currplayer["name"] ?></span><br>
-      <button class="btn" id="exitBtn">Kilépés</button>
+      <div class="player-info">
+        <div class="player-meta">
+          <h5>Név</h5>
+          <span class="player-name"><?= $currplayer["name"] ?></span>
+        </div>
+        <div class="player-actions">
+          <button class="btn" id="exitBtn">Kilépés</button>
+        </div>
+      </div>
     </div>
     <div>
       <canvas id="playfield"></canvas>

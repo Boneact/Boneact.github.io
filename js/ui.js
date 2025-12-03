@@ -1,5 +1,4 @@
 import { CELL, COLORS, TETROMINOS } from './constants.js';
-import { loadScores, addScore, clearScores } from './storage.js';
 
 export class UI {
   constructor(cols=10, rows=20){
@@ -20,12 +19,6 @@ export class UI {
     this.levelEl = document.querySelector('#level');
     this.pauseBtn = document.querySelector('#pauseBtn');
 
-    this.historyBtn = document.querySelector('#historyBtn');
-    this.historyWindow = document.querySelector('#scoreHistory');
-    this.scoreList = document.querySelector('#scoreList');
-    this.closeHistoryBtn = document.querySelector('#closeHistory');
-    this.clearHistoryBtn = document.querySelector('#clearHistory');
-
     this.gameOverWindow = document.querySelector('#gameOver');
     this.finalScoreEl = document.querySelector('#finalScore');
     this.finalLevelEl = document.querySelector('#finalLevel');
@@ -38,11 +31,6 @@ export class UI {
       this.hideGameOver();
       document.querySelector('#newgameBtn').click();
     });
-
-    this.loadHistory().catch(()=>{});
-    if(this.historyBtn) this.historyBtn.addEventListener('click',()=>this.toggleHistory());
-    if(this.closeHistoryBtn) this.closeHistoryBtn.addEventListener('click',()=>this.hideHistory());
-    if(this.clearHistoryBtn) this.clearHistoryBtn.addEventListener('click',()=>this.clearHistory().catch(()=>{}));
   }
 
   updateStat(score, lines, level){
@@ -129,80 +117,5 @@ export class UI {
       ctx.fillRect(offsetX+size,offsetY+size,size*2,size*2);
     }
     ctx.restore();
-  }
-
-  async loadHistory(){
-    try {
-      this.history = await loadScores();
-    } catch(e){
-      this.history = [];
-    }
-    this.renderHistory();
-    return Promise.resolve(this.history);
-  }
-
-  renderHistory(){
-    if(!this.scoreList) return;
-    this.scoreList.innerHTML = '';
-    if(!this.history || this.history.length===0){
-      const li = document.createElement('li');
-      li.className = 'score-empty';
-      li.textContent = 'Nincs korábbi eredmény';
-      this.scoreList.appendChild(li);
-      return;
-    }
-
-    for(const s of this.history){
-      const li = document.createElement('li');
-      const date = new Date(s.date);
-      const left = document.createElement('span');
-      left.textContent = date.toLocaleString();
-      const right = document.createElement('strong');
-      right.textContent = s.score;
-      li.appendChild(left);
-      li.appendChild(right);
-      this.scoreList.appendChild(li);
-    }
-  }
-
-  async addScoreToHistory(scoreObj){
-    try{
-      const arr = await addScore(scoreObj);
-      this.history = Array.isArray(arr)? arr : [];
-    }catch(e){
-      return Promise.reject(e);
-    }
-    this.renderHistory();
-    return Promise.resolve(scoreObj);
-  }
-
-  toggleHistory(){
-    if(!this.historyWindow) return;
-    const open = this.historyWindow.classList.toggle('open');
-  }
-
-  hideHistory(){
-    if(!this.historyWindow) return;
-    this.historyWindow.classList.remove('open');
-  }
-
-  async clearHistory(){
-    try{ await clearScores(); }catch(e){}
-    this.history = [];
-    this.renderHistory();
-    return Promise.resolve();
-  }
-
-  showGameOver(score, level, lines){
-    if(!this.gameOverWindow) return;
-    this.finalScoreEl.textContent = score;
-    this.finalLevelEl.textContent = level;
-    this.finalLinesEl.textContent = lines;
-    this.gameOverWindow.classList.add('open');
-  }
-
-  hideGameOver(){
-    if(!this.gameOverWindow) return;
-    this.gameOverWindow.classList.remove('open');
   }
 }

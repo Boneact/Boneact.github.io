@@ -8,7 +8,12 @@
     "692ff1b937e85": {
         "name": "jozsi",
         "password": "$2y$12$cGybZP9Aq6mfAHJYx90tk.V1oiDI\/d3JSVyUKTcpoj0m7fF44Z68K",
-        "scores": [],
+        "scores": [
+            0,
+            420,
+            1440,
+            0
+        ],
         "id": "692ff1b937e85"
     }
 }

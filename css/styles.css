@@ -232,3 +232,50 @@ p, span {
   background: var(--panel);
   color: var(--muted);
 }
+
+.control-row input[type="text"],
+.control-row input[type="password"],
+.control-row input[type="email"],
+.control-row textarea,
+.control-row select {
+  width: 160px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: var(--muted);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.control-row input::placeholder,
+.control-row textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+.control-row input[type="text"]:focus,
+.control-row input[type="password"]:focus,
+.control-row input[type="email"]:focus,
+.control-row textarea:focus,
+.control-row select:focus {
+  outline: none;
+  border-color: var(--accent);
+  color: #e6eef6;
+  box-shadow: 0 4px 18px rgba(0,209,178,0.06);
+}
+
+.control-row input[type="text"], .control-row input[type="password"] {
+  -webkit-appearance: none;
+}
+
+.player-info{
+  margin-top:8px;
+  padding:8px;
+  border-radius:6px;
+  background: rgba(255,255,255,0.01);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.player-meta h5{ margin:0; font-size:12px; color:var(--accent); }
+.player-name{ color:var(--muted); font-weight:600; }
+.player-actions button{ margin:0; }

@@ -1,10 +1,11 @@
 import { TETROMINOS, rotateMatrix } from './constants.js';
 
 export class Game {
-  constructor(ui, cols = 10, rows = 20) {
+  constructor(ui, cols = 10, rows = 20, playerName = '') {
     this.ui = ui;
     this.cols = cols;
     this.rows = rows;
+    this.playerName = playerName;
 
     this.grid = [];
     this.next = null;
@@ -153,11 +154,26 @@ export class Game {
     this.ui.updatePause(this.isPaused);
   }
 
-  update(time=0){
+  async saveScoreToPHP() {
+    if (!this.playerName) return;
+    try {
+      const res = await fetch('/save_score.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `name=${encodeURIComponent(this.playerName)}&score=${this.score}`
+      });
+      if (!res.ok) console.error('Failed to save score');
+    } catch (e) {
+      console.error('Error saving score:', e);
+    }
+  }
+
+  async update(time=0){
     if(this.isGameOver && !this._savedScore){
       this._savedScore = true;
-      this.saveScore();
-      this.ui.showGameOver(this.score, this.level, this.totalLines);
+      await this.saveScoreToPHP();
+      setTimeout(()=> window.location.reload(), 250);
+      return;
     }
 
     if(this.isPaused||this.isGameOver){

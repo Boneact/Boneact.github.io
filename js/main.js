@@ -1,6 +1,7 @@
 import { Game } from './game.js';
 import { UI } from './ui.js';
 
+const playerName = localStorage.getItem('playerName') || '';
 const savedSize = localStorage.getItem('gridSize');
 let DEFAULT_COLS = 10;
 let DEFAULT_ROWS = 20;
@@ -13,7 +14,7 @@ if(savedSize){
 }
 
 const ui = new UI(DEFAULT_COLS, DEFAULT_ROWS);
-let game = new Game(ui, DEFAULT_COLS, DEFAULT_ROWS);
+let game = new Game(ui, DEFAULT_COLS, DEFAULT_ROWS, playerName);
 
 const newgameBtn = document.querySelector('#newgameBtn');
 

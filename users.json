@@ -11,24 +11,9 @@
         "scores": [
             0,
             420,
-            1440
+            1440,
+            0
         ],
         "id": "692ff1b937e85"
-    },
-    "69301989d6b76": {
-        "name": "bela",
-        "password": "$2y$12$GWeENI\/1X2da5.VmU6V6XuCqVWxvjcZ0xytmqjUUllC5Et87tDkC.",
-        "scores": [
-            3360
-        ],
-        "id": "69301989d6b76"
-    },
-    "69301a5121756": {
-        "name": "sanyi",
-        "password": "$2y$12$J6C9MGbg8o5\/saIAt0WUL.X8Uln3B6qSjNTMXCv2FuRLGF6ZrftSi",
-        "scores": [
-            720
-        ],
-        "id": "69301a5121756"
     }
 }

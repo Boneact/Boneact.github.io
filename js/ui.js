@@ -33,6 +33,40 @@ export class UI {
     });
   }
 
+  showGameOver(score, level, lines){
+    if(!this.gameOverWindow) return;
+    if(this.finalScoreEl) this.finalScoreEl.textContent = score;
+    if(this.finalLevelEl) this.finalLevelEl.textContent = level;
+    if(this.finalLinesEl) this.finalLinesEl.textContent = lines;
+    this.gameOverWindow.style.display = 'block';
+  }
+
+  hideGameOver(){
+    if(!this.gameOverWindow) return;
+    this.gameOverWindow.style.display = 'none';
+    this.refreshLeaderboard();
+  }
+
+  async refreshLeaderboard(){
+    
+    const res = await fetch('/leaderboard_api.php');
+    if(!res.ok) return;
+    const data = await res.json();
+    const list = document.querySelector('.score-list');
+    if(!list) return;
+    list.innerHTML = '';
+    for(const e of data){
+      const li = document.createElement('li');
+      const left = document.createElement('span');
+      left.textContent = e.name;
+      const right = document.createElement('strong');
+      right.textContent = e.score;
+      li.appendChild(left);
+      li.appendChild(right);
+      list.appendChild(li);
+    }
+  }
+
   updateStat(score, lines, level){
     this.scoreEl.textContent = score;
     this.linesEl.textContent = lines;

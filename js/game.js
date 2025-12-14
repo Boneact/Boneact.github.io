@@ -172,7 +172,9 @@ export class Game {
     if(this.isGameOver && !this._savedScore){
       this._savedScore = true;
       await this.saveScoreToPHP();
-      setTimeout(()=> window.location.reload(), 250);
+      this.ui.showGameOver(this.score, this.level, this.totalLines);
+      this.ui.render(this);
+      requestAnimationFrame(this.update.bind(this));
       return;
     }
 

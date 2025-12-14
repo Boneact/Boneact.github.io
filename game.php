@@ -4,8 +4,7 @@ include("playerstorage.php");
 $playerstorage = new PlayerStorage();
 $currplayer = $playerstorage->findById($_GET["id"]);
 
-$players = json_decode(file_get_contents("users.json"), true);
-
+$players = json_decode(file_get_contents(__DIR__ . '/data/users.json'), true);
 $allScores = [];
 
 foreach ($players as $player) {
@@ -97,5 +96,18 @@ while (count($top10) < 10)
     const exitBtn = document.querySelector("#exitBtn");
     exitBtn.addEventListener('click', ()=>window.location.href = "index.php")
   </script>
+
+  <div id="gameOver" class="score-window" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:999;">
+    <div class="score-window-header">Játék vége</div>
+    <div class="game-over-stats">
+      <div class="stat"><span>Pont:</span><strong id="finalScore">0</strong></div>
+      <div class="stat"><span>Szint:</span><strong id="finalLevel">1</strong></div>
+      <div class="stat"><span>Sorok:</span><strong id="finalLines">0</strong></div>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button id="closeGameOver" class="btn small">Bezárás</button>
+      <button id="newGameOverBtn" class="btn">Új játék</button>
+    </div>
+  </div>
 </body>
 </html>

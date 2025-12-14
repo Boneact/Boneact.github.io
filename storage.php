@@ -1,16 +1,24 @@
 <?php
 interface IFileIO {
   function save($data);
-  function load();
+  function load($assoc = true);
 }
 abstract class FileIO implements IFileIO {
   protected $filepath;
 
   public function __construct($filename) {
-    if (!is_readable($filename) || !is_writable($filename)) {
-      throw new Exception("Data source {$filename} is invalid.");
+    if (file_exists($filename)) {
+      if (!is_readable($filename) || !is_writable($filename)) {
+        throw new Exception("Data source {$filename} is not readable/writable.");
+      }
+      $this->filepath = realpath($filename);
+    } else {
+      $dir = dirname($filename);
+      if (!is_dir($dir) || !is_writable($dir)) {
+        throw new Exception("Cannot create data source at {$filename}.");
+      }
+      $this->filepath = $filename;
     }
-    $this->filepath = realpath($filename);
   }
 }
 class JsonIO extends FileIO {
@@ -25,7 +33,7 @@ class JsonIO extends FileIO {
   }
 }
 class SerializeIO extends FileIO {
-  public function load() {
+  public function load($assoc = true) {
     $file_content = file_get_contents($this->filepath);
     return unserialize($file_content) ?: [];
   }

@@ -5,10 +5,12 @@ class Playerstorage extends Storage
 {
     public function __construct()
     {
-        if(!file_exists("users.json"))
+        $usersFile = __DIR__ . '/data/users.json';
+
+        if(!file_exists($usersFile))
         {
-            file_put_contents("users.json","{}");
+            file_put_contents($usersFile,"{}");
         }
-        parent::__construct(new JsonIO("users.json"));
+        parent::__construct(new JsonIO($usersFile));
     }
 }

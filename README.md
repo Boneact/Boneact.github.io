@@ -16,7 +16,7 @@
 Frontend:
 - DOM-kezelés (querySelector) és eseménykezelés (addEventListener)
 - Canvas API (fillRect, clearRect) játéktér megjelenítéshez
-- requestAnimationFrame animációs hurok
+- requestAnimationFrame animációhoz
 - Aszinkron fetch API PHP végpontokkal való kommunikációhoz
 
 Backend:
@@ -27,5 +27,5 @@ Backend:
 
 1. Regisztráció/Bejelentkezés után a játékos a játéktérre kerül
 2. Játék végén a pontszám automatikusan POST-olódik a szerverhez
-3. Az oldal automatikusan újratöltődik a frissített leaderboard megjelenítésére
+3. Játék végekor megjelenik egy összegző; bezáráskor a leaderboard frissül a szerverről
 4. A leaderboard top 10 eredményt mutat és valós időben frissül
